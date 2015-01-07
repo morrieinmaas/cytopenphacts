@@ -140,4 +140,5 @@
 
 	</dependencies>
 
+	<description>Open PHACTS app for Cytoscape.</description>
 </project>
