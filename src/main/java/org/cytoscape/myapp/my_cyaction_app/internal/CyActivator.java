@@ -1,23 +1,47 @@
 package org.cytoscape.myapp.my_cyaction_app.internal;
 
+import org.cytoscape.model.CyNetworkFactory;
+import org.cytoscape.session.CyNetworkNaming;
+import org.cytoscape.model.CyNetwork;
+import org.cytoscape.model.CyNetworkManager;
+import org.cytoscape.model.CyNode;
+import org.cytoscape.work.TaskFactory;
+import org.osgi.framework.BundleContext;
+import org.cytoscape.service.util.AbstractCyActivator;
+
 import java.util.Properties;
 
-import org.cytoscape.application.CyApplicationManager;
-import org.cytoscape.service.util.AbstractCyActivator;
-import org.osgi.framework.BundleContext;
-
 public class CyActivator extends AbstractCyActivator {
-
-	@Override
-	public void start(BundleContext context) throws Exception {
-		
-		CyApplicationManager cyApplicationManager = getService(context, CyApplicationManager.class);
-		
-		MenuAction action = new MenuAction(cyApplicationManager, "Hello World App");
-		
-		Properties properties = new Properties();
-		
-		registerAllServices(context, action, properties);
+	public CyActivator() {
+		super();
 	}
 
+
+	public void start(BundleContext bc) {
+
+		CyNetworkManager cyNetworkManagerServiceRef = getService(bc,CyNetworkManager.class);
+		CyNetworkNaming cyNetworkNamingServiceRef = getService(bc,CyNetworkNaming.class);
+		CyNetworkFactory cyNetworkFactoryServiceRef = getService(bc,CyNetworkFactory.class);
+		
+		CreateNetworkTaskFactory createNetworkTaskFactory = new CreateNetworkTaskFactory(cyNetworkManagerServiceRef,cyNetworkNamingServiceRef,cyNetworkFactoryServiceRef);
+				
+		Properties sample05TaskFactoryProps = new Properties();
+		sample05TaskFactoryProps.setProperty("preferredMenu","Apps.Samples");
+		sample05TaskFactoryProps.setProperty("title","Create Network");
+		registerService(bc,createNetworkTaskFactory,TaskFactory.class, sample05TaskFactoryProps);
+		
+		CyNetwork myNet = cyNetworkFactoryServiceRef.createNetwork();
+		//myNet.  .getRow(net).set(CyNetwork.NAME, "FlavoNERDS");
+		CyNode Moritz = myNet.addNode();
+		//myNet.getDefaultNodeTable().getRow(Moritz.getSUID()).set("name", "Moritz");
+		
+		CyNode Fred = myNet.addNode();
+		//myNet.getDefaultNodeTable().getRow(Fred.getSUID()).set("name", "Fred");
+		
+		
+		//CyNode David = myNet.addNode();
+		//CyNode Janni = myNet.addNode();
+		myNet.addEdge(Moritz, Fred, true);
+		
+	}
 }
