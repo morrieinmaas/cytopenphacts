@@ -1,11 +1,13 @@
 package org.cytoscape.myapp.my_cyaction_app.internal;
 
 import java.awt.event.ActionEvent;
-
-import javax.swing.JOptionPane;
-
-import org.cytoscape.application.CyApplicationManager;
 import org.cytoscape.application.swing.AbstractCyAction;
+import org.cytoscape.application.CyApplicationManager;
+import org.cytoscape.model.CyNode;
+import org.cytoscape.model.CyEdge;
+import org.cytoscape.model.CyNetwork;
+import org.cytoscape.view.model.CyNetworkView;
+import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 
 
 /**
@@ -14,17 +16,30 @@ import org.cytoscape.application.swing.AbstractCyAction;
  */
 public class MenuAction extends AbstractCyAction {
 
-	public MenuAction(CyApplicationManager cyApplicationManager, final String menuTitle) {
-		
-		super(menuTitle, cyApplicationManager, null, null);
+	private final CyApplicationManager applicationManager;
+	
+	public MenuAction(final CyApplicationManager applicationManager, final String menuTitle) {
+		super(menuTitle, applicationManager, null, null);
+		this.applicationManager = applicationManager;
 		setPreferredMenu("Apps");
-		
 	}
-
+	
+	
 	public void actionPerformed(ActionEvent e) {
 
-		// Write your own function here.
-		JOptionPane.showMessageDialog(null, "BLAAAAAAAH do something please!!!!!");
-		
+	    final CyNetworkView currentNetworkView = applicationManager.getCurrentNetworkView();
+	    if (currentNetworkView == null)
+	       return;
+	    
+	    // View is always associated with its model.
+	    final CyNetwork network = currentNetworkView.getModel();
+	    for (CyNode node : network.getNodeList()) {
+
+	        if (network.getNeighborList(node,CyEdge.Type.ANY).isEmpty()) {
+	        	currentNetworkView.getNodeView(node).setVisualProperty(BasicVisualLexicon.NODE_VISIBLE, false);	        	
+	        }
+	    }
+	    currentNetworkView.updateView();
 	}
+	
 }

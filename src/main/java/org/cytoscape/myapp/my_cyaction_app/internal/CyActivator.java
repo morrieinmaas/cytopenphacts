@@ -33,10 +33,10 @@ public class CyActivator extends AbstractCyActivator {
 		CyNetwork myNet = cyNetworkFactoryServiceRef.createNetwork();
 		//myNet.  .getRow(net).set(CyNetwork.NAME, "FlavoNERDS");
 		CyNode Moritz = myNet.addNode();
-		//myNet.getDefaultNodeTable().getRow(Moritz.getSUID()).set("name", "Moritz");
+		myNet.getDefaultNodeTable().getRow(Moritz.getSUID()).set("name", "Moritz");
 		
 		CyNode Fred = myNet.addNode();
-		//myNet.getDefaultNodeTable().getRow(Fred.getSUID()).set("name", "Fred");
+		myNet.getDefaultNodeTable().getRow(Fred.getSUID()).set("name", "Fred");
 		
 		
 		//CyNode David = myNet.addNode();
