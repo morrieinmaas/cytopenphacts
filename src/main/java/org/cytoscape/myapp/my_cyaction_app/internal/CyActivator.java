@@ -30,18 +30,6 @@ public class CyActivator extends AbstractCyActivator {
 		sample05TaskFactoryProps.setProperty("title","Create Network");
 		registerService(bc,createNetworkTaskFactory,TaskFactory.class, sample05TaskFactoryProps);
 		
-		CyNetwork myNet = cyNetworkFactoryServiceRef.createNetwork();
-		//myNet.  .getRow(net).set(CyNetwork.NAME, "FlavoNERDS");
-		CyNode Moritz = myNet.addNode();
-		myNet.getDefaultNodeTable().getRow(Moritz.getSUID()).set("name", "Moritz");
-		
-		CyNode Fred = myNet.addNode();
-		myNet.getDefaultNodeTable().getRow(Fred.getSUID()).set("name", "Fred");
-		
-		
-		//CyNode David = myNet.addNode();
-		//CyNode Janni = myNet.addNode();
-		myNet.addEdge(Moritz, Fred, true);
 		
 	}
 }

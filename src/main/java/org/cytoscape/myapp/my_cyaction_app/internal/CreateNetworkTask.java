@@ -1,10 +1,16 @@
 package org.cytoscape.myapp.my_cyaction_app.internal;
 
+import java.awt.Color;
+import java.io.IOException;
+
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.session.CyNetworkNaming;
+import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 
@@ -21,6 +27,7 @@ public class CreateNetworkTask extends AbstractTask {
 	}
 	
 	public void run(TaskMonitor monitor) {
+		
 		// Create an empty network
 		CyNetwork myNet = cnf.createNetwork();
 		myNet.getRow(myNet).set(CyNetwork.NAME,
@@ -43,11 +50,25 @@ public class CreateNetworkTask extends AbstractTask {
 				
 		netMgr.addNetwork(myNet);
 		
+		
+		
+		OpenPhacts ops = new OpenPhacts(myNet);
+		try {
+			ops.pharma4Target();
+			CyNode blaah = myNet.addNode();
+			myNet.getDefaultNodeTable().getRow(blaah.getSUID()).set("name", "blaah");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		
 		// Set the variable destroyNetwork to true, the following code will destroy a network
 		boolean destroyNetwork = false;
 		if (destroyNetwork){
 			// Destroy it
 			 netMgr.destroyNetwork(myNet);			
 		}
+		
 	}
+
 }

@@ -62,6 +62,8 @@ public class AbstractOPS4JClient {
 	
 	protected String runRequest(String call, Map<String, String> params, Object... objects)
 	throws ClientProtocolException, IOException, HttpException {
+		appID = "ddc7621f&";
+		appKey = "6b862cf4119b0baed070f433483b5db8";
 		params.put("app_id", appID);
 		params.put("app_key", appKey);
 		params.put("_format", "ttl"); // the default
