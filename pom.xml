@@ -11,7 +11,7 @@
 	<artifactId>my-cyaction-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-			<name>${bundle.symbolicName} [${bundle.namespace}]</name>
+			<name>cytopenphacts</name>
 	
 	<packaging>bundle</packaging>
 
@@ -73,14 +73,38 @@
 					<instructions>
 						<Bundle-SymbolicName>${bundle.symbolicName}</Bundle-SymbolicName>
 						<Bundle-Version>${project.version}</Bundle-Version>
-						<Export-Package>${bundle.namespace}</Export-Package>
+						<!--   >Export-Package>${bundle.namespace}</Export-Package>
 						<Export-Package>com.github.egonw.ops4j</Export-Package>
-						<Export-Package>com.hp.hpl.jena.ontology</Export-Package>
+						<Export-Package>com.hp.hpl.jena.ontology</Export-Package -->
 						<Private-Package>${bundle.namespace}.internal.*</Private-Package>
 						<Bundle-Activator>${bundle.namespace}.internal.CyActivator</Bundle-Activator>
-											</instructions>
+					</instructions>
 				</configuration>
 			</plugin>
+			<plugin>
+        		<groupId>org.apache.maven.plugins</groupId>
+        		<artifactId>maven-shade-plugin</artifactId>
+        		<version>2.1</version>
+        		<executions>
+        			<execution>
+        		    	<phase>package</phase>
+        		   		<goals>
+        		    		<goal>shade</goal>
+        		    	</goals>
+        	    		<configuration>
+        	    			<artifactSet>
+        	    				<includes>
+        	    					<!--  include>org.ops4j.pax.logging:pax-logging-api</include>
+        	    					<include>org.apache.httpcomponents:httpclient</include>
+        	    					<include>commons-io:commons-io</include -->
+        	    					<include>org.apache.jena:jena-core</include>
+        	    					<include>org.apache.jena:jena-arq</include>
+		      	 				</includes>
+        	    			</artifactSet>
+            			</configuration>
+          			</execution>
+        		</executions>
+      		</plugin>
 		</plugins>
 	</build>
 
@@ -149,7 +173,7 @@
 			<version>1.5.2</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
