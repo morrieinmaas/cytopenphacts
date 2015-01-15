@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class Mapping extends AbstractOPS4JClient {
 
 	private Mapping(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static Mapping getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,7 +41,7 @@ public class Mapping extends AbstractOPS4JClient {
 		return new Mapping(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 	
-	public String mapUri(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String mapUri(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("Uri", uri);
 		return runRequest(server + "mapUri", params, objects);

@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class Diseases extends AbstractOPS4JClient {
 
 	private Diseases(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static Diseases getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,13 +41,13 @@ public class Diseases extends AbstractOPS4JClient {
 		return new Diseases(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 
-	public String forTargetCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forTargetCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "disease/byTarget/count", params, objects);
 	}
 
-	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -58,13 +55,13 @@ public class Diseases extends AbstractOPS4JClient {
 		return runRequest(server + "disease/byTarget", params, objects);
 	}
 
-	public String targetCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String targetCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "disease/getTargets/count", params, objects);
 	}
 
-	public String targetList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String targetList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -72,7 +69,7 @@ public class Diseases extends AbstractOPS4JClient {
 		return runRequest(server + "disease/getTargets", params, objects);
 	}
 
-	public String info(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String info(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "disease", params, objects);
