@@ -22,11 +22,11 @@
  */
 package com.github.egonw.ops4j;
 
-class Parameter implements IParameter {
+public class Parameter implements IParameter {
 
 	private String name;
 	
-	protected Parameter(String name) {
+	public Parameter(String name) {
 		this.name = name;
 	}
 	
