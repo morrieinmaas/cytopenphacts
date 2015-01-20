@@ -27,10 +27,13 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
+
 public class Sources extends AbstractOPS4JClient {
 
 	private Sources(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey);
+		super(server, appID, appKey, null);
 	}
 
 	public static Sources getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -41,7 +44,7 @@ public class Sources extends AbstractOPS4JClient {
 		return new Sources(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 
-	public String list(Object... objects) throws IOException {
+	public String list(Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "sources", params, objects);
 	}

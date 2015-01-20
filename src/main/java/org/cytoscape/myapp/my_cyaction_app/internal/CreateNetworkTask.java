@@ -1,10 +1,16 @@
 package org.cytoscape.myapp.my_cyaction_app.internal;
 
+import java.awt.Color;
+import java.io.IOException;
+
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
 import org.cytoscape.model.CyNetwork;
 import org.cytoscape.model.CyNetworkFactory;
 import org.cytoscape.model.CyNetworkManager;
 import org.cytoscape.model.CyNode;
 import org.cytoscape.session.CyNetworkNaming;
+import org.cytoscape.view.presentation.property.BasicVisualLexicon;
 import org.cytoscape.work.AbstractTask;
 import org.cytoscape.work.TaskMonitor;
 

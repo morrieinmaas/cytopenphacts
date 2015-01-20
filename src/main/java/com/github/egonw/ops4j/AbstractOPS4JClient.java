@@ -22,34 +22,46 @@
  */
 package com.github.egonw.ops4j;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpException;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 public class AbstractOPS4JClient {
 
+	private HttpClient httpClient = null;
 	private String appID;
 	private String appKey;
 
 	protected String server;
 
-	public AbstractOPS4JClient(String server, String appID, String appKey)
+	public AbstractOPS4JClient(String server, String appID, String appKey, HttpClient httpclient)
 	throws MalformedURLException {
 		this.server = server;
 		if (!this.server.endsWith("/")) this.server += "/";
 		new URL(this.server); // validate the server URL
 		this.appID = appID;
 		this.appKey = appKey;
+		this.httpClient = httpclient;
+		if (httpclient == null) this.httpClient = new DefaultHttpClient();
 	}
 	
 	protected String runRequest(String call, Map<String, String> params, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		appID = "ddc7621f&";
 		appKey = "6b862cf4119b0baed070f433483b5db8";
 		params.put("app_id", appID);
@@ -57,28 +69,21 @@ public class AbstractOPS4JClient {
 		params.put("_format", "ttl"); // the default
 		String requestUrl = createRequest(call, params, objects);
 		System.out.println("Call: " + requestUrl);
-		URL url = new URL(requestUrl);
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		HttpGet httppost = new HttpGet(requestUrl); 
 
-		// just want to do an HTTP GET here
-		connection.setRequestMethod("GET");
+		HttpResponse response = httpClient.execute(httppost);
+		StatusLine statusLine = response.getStatusLine();
+		int statusCode = statusLine.getStatusCode();
+		if (statusCode != 200) throw new HttpException(
+			"Expected HTTP 200, but got a " + statusCode + ": " + statusLine.getReasonPhrase()
+		);
 
-		// uncomment this if you want to write output to this url
-		//connection.setDoOutput(true);
-
-		// give it 15 seconds to respond
-		connection.setReadTimeout(15*1000);
-		connection.connect();
-		
-		InputStream in = connection.getInputStream();
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int len;
-		while ((len = in.read(buffer)) != -1) {
-			out.write(buffer, 0, len);
-		}
+		HttpEntity responseEntity = response.getEntity();
+		InputStream in = responseEntity.getContent();
+		StringWriter writer = new StringWriter();
+		IOUtils.copy(in, writer, "UTF-8");
 		in.close();
-		return out.toString("UTF-8");
+		return writer.toString();
 	}
 	
 	private String createRequest(String server, Map<String, String> params, Object... objects)

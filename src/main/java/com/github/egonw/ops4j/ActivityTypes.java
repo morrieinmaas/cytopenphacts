@@ -27,26 +27,38 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+
 public class ActivityTypes extends AbstractOPS4JClient {
 
-	private ActivityTypes(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey);
+	private ActivityTypes(String server, String appID, String appKey, HttpClient httpclient) throws MalformedURLException {
+		super(server, appID, appKey, httpclient);
+	}
+
+	public static ActivityTypes getInstance(String server, String apiID, String appKey, HttpClient httpclient) throws MalformedURLException {
+		return new ActivityTypes(server, apiID, appKey, httpclient);
 	}
 
 	public static ActivityTypes getInstance(String server, String apiID, String appKey) throws MalformedURLException {
-		return new ActivityTypes(server, apiID, appKey);
+		return new ActivityTypes(server, apiID, appKey, null);
+	}
+
+	public static ActivityTypes getInstance(Server server, HttpClient httpclient) throws MalformedURLException {
+		return new ActivityTypes(server.getServer(), server.getAppID(), server.getAppKey(), httpclient);
 	}
 
 	public static ActivityTypes getInstance(Server server) throws MalformedURLException {
-		return new ActivityTypes(server.getServer(), server.getAppID(), server.getAppKey());
+		return new ActivityTypes(server.getServer(), server.getAppID(), server.getAppKey(), null);
 	}
 
-	public String count(Object... objects) throws IOException {
+	public String count(Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "pharmacology/filters/activities/count", params, objects);
 	}
 
-	public String list(int page, int pageSize, Object... objects) throws IOException {
+	public String list(int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("_page", Integer.toString(page));
 		params.put("_pageSize", Integer.toString(pageSize));

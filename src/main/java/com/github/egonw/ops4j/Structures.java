@@ -27,10 +27,13 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
+
 public class Structures extends AbstractOPS4JClient {
 
 	private Structures(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey);
+		super(server, appID, appKey, null);
 	}
 
 	public static Structures getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -41,26 +44,26 @@ public class Structures extends AbstractOPS4JClient {
 		return new Structures(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 	
-	public String smiles2uri(String smiles, Object... objects) throws IOException {
+	public String smiles2uri(String smiles, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("smiles", smiles);
 		return runRequest(server + "structure", params, objects);
 	}
 
-	public String inchi2uri(String inchi, Object... objects) throws IOException {
+	public String inchi2uri(String inchi, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("inchi", inchi);
 		return runRequest(server + "structure", params, objects);
 	}
 
-	public String inchikey2uri(String inchikey, Object... objects) throws IOException {
+	public String inchikey2uri(String inchikey, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("inchi_key", inchikey);
 		return runRequest(server + "structure", params, objects);
 	}
 
 	public String tanimotoSimilarityFrom(String smiles, float treshold, int start, int count, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smiles);
 		params.put("searchOptions.SimilarityType", "0"); // Tanimoto
@@ -71,7 +74,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String tanimotoSimilarity(String smiles, float treshold, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smiles);
 		params.put("searchOptions.SimilarityType", "0"); // Tanimoto
@@ -80,7 +83,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String similarity(String smiles, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smiles);
 		params.put("resultOptions.Count", "" + Integer.toString(25));
@@ -90,7 +93,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String substructure(String smiles, int start, int count, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smiles);
 		params.put("searchOptions.MolType", "SMILES");
@@ -100,7 +103,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String smarts(String smarts, int start, int count, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smarts);
 		params.put("searchOptions.MolType", "SMARTS");
@@ -110,7 +113,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String exact(String smarts, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smarts);
 		params.put("searchOptions.MatchType", "0");
@@ -118,7 +121,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String allTautomers(String smarts, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smarts);
 		params.put("searchOptions.MatchType", "1");
@@ -126,7 +129,7 @@ public class Structures extends AbstractOPS4JClient {
 	}
 
 	public String sameSkeleton(String smarts, Object... objects)
-	throws IOException {
+	throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("searchOptions.Molecule", smarts);
 		params.put("searchOptions.MatchType", "3");

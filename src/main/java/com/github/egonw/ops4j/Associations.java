@@ -27,10 +27,13 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.http.HttpException;
+import org.apache.http.client.ClientProtocolException;
+
 public class Associations extends AbstractOPS4JClient {
 
 	private Associations(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey);
+		super(server, appID, appKey, null);
 	}
 
 	public static Associations getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -41,13 +44,13 @@ public class Associations extends AbstractOPS4JClient {
 		return new Associations(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 
-	public String forTargetCount(String uri, Object... objects) throws IOException {
+	public String forTargetCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "disease/assoc/byTarget/count", params, objects);
 	}
 
-	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws IOException {
+	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -55,13 +58,13 @@ public class Associations extends AbstractOPS4JClient {
 		return runRequest(server + "disease/assoc/byTarget", params, objects);
 	}
 
-	public String forDiseaseCount(String uri, Object... objects) throws IOException {
+	public String forDiseaseCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "disease/assoc/byDisease/count", params, objects);
 	}
 
-	public String forDiseaseList(String uri, int page, int pageSize, Object... objects) throws IOException {
+	public String forDiseaseList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
