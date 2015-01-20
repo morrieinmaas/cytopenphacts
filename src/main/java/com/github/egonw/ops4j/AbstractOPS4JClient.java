@@ -31,8 +31,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
-import java.net.HttpURLConnection;
-import java.io.ByteArrayOutputStream;
 
 public class AbstractOPS4JClient {
 
