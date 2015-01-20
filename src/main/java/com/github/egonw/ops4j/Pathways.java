@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class Pathways extends AbstractOPS4JClient {
 
 	private Pathways(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static Pathways getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,49 +41,49 @@ public class Pathways extends AbstractOPS4JClient {
 		return new Pathways(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 	
-	public String count(Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String count(Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "pathways/count", params, objects);
 	}
 
-	public String list(int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String list(int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("_page", Integer.toString(page));
 		params.put("_pageSize", Integer.toString(pageSize));
 		return runRequest(server + "pathways", params, objects);
 	}
 
-	public String info(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String info(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathway", params, objects);
 	}
 
-	public String getCompounds(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String getCompounds(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathway/getCompounds", params, objects);
 	}
 
-	public String getTargets(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String getTargets(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathway/getTargets", params, objects);
 	}
 
-	public String getPublications(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String getPublications(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathway/getReferences", params, objects);
 	}
 
-	public String forCompoundCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forCompoundCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathways/byCompound/count", params, objects);
 	}
 
-	public String forCompoundList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forCompoundList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -94,13 +91,13 @@ public class Pathways extends AbstractOPS4JClient {
 		return runRequest(server + "pathways/byCompound", params, objects);
 	}
 
-	public String forTargetCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forTargetCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathways/byTarget/count", params, objects);
 	}
 
-	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forTargetList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -108,13 +105,13 @@ public class Pathways extends AbstractOPS4JClient {
 		return runRequest(server + "pathways/byTarget", params, objects);
 	}
 
-	public String forPublicationCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forPublicationCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "pathways/byReference/count", params, objects);
 	}
 
-	public String forPublicationList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forPublicationList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -122,7 +119,7 @@ public class Pathways extends AbstractOPS4JClient {
 		return runRequest(server + "pathways/byReference", params, objects);
 	}
 
-	public String organisms(Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String organisms(Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "pathways/organisms", params, objects);
 	}

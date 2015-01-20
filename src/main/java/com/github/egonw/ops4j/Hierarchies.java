@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class Hierarchies extends AbstractOPS4JClient {
 
 	private Hierarchies(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static Hierarchies getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,18 +41,18 @@ public class Hierarchies extends AbstractOPS4JClient {
 		return new Hierarchies(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 
-	public String rootNodes(Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String rootNodes(Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "tree", params, objects);
 	}
 
-	public String children(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String children(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "tree/children", params, objects);
 	}
 
-	public String parents(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String parents(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "tree/parents", params, objects);

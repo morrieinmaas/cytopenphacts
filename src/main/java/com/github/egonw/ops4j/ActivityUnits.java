@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class ActivityUnits extends AbstractOPS4JClient {
 
 	private ActivityUnits(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static ActivityUnits getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,19 +41,19 @@ public class ActivityUnits extends AbstractOPS4JClient {
 		return new ActivityUnits(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 	
-	public String count(Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String count(Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "pharmacology/filters/count_units", params, objects);
 	}
 
-	public String list(int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String list(int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("_page", Integer.toString(page));
 		params.put("_pageSize", Integer.toString(pageSize));
 		return runRequest(server + "pharmacology/filters/units", params, objects);
 	}
 
-	public String forType(String type, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String forType(String type, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		return runRequest(server + "pharmacology/filters/units/" + type, params, objects);
 	}

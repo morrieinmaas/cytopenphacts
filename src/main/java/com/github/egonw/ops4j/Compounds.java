@@ -27,13 +27,10 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpException;
-import org.apache.http.client.ClientProtocolException;
-
 public class Compounds extends AbstractOPS4JClient {
 
 	private Compounds(String server, String appID, String appKey) throws MalformedURLException {
-		super(server, appID, appKey, null);
+		super(server, appID, appKey);
 	}
 
 	public static Compounds getInstance(String server, String apiID, String appKey) throws MalformedURLException {
@@ -44,25 +41,25 @@ public class Compounds extends AbstractOPS4JClient {
 		return new Compounds(server.getServer(), server.getAppID(), server.getAppKey());
 	}
 	
-	public String info(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String info(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound", params, objects);
 	}
 
-	public String classifications(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String classifications(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound/classifications", params, objects);
 	}
 
-	public String pharmacologyCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String pharmacologyCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound/pharmacology/count", params, objects);
 	}
 
-	public String pharmacologyList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String pharmacologyList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -70,13 +67,13 @@ public class Compounds extends AbstractOPS4JClient {
 		return runRequest(server + "compound/pharmacology/pages", params, objects);
 	}
 
-	public String compoundByClassCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String compoundByClassCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound/members/count", params, objects);
 	}
 
-	public String compoundByClassList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String compoundByClassList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -84,13 +81,13 @@ public class Compounds extends AbstractOPS4JClient {
 		return runRequest(server + "compound/members/pages", params, objects);
 	}
 
-	public String classPharmacologyCount(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String classPharmacologyCount(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound/tree/pharmacology/count", params, objects);
 	}
 
-	public String classPharmacologyList(String uri, int page, int pageSize, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String classPharmacologyList(String uri, int page, int pageSize, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		params.put("_page", Integer.toString(page));
@@ -99,7 +96,7 @@ public class Compounds extends AbstractOPS4JClient {
 	}
 
 	public final static IParameter TREE = new Parameter("tree");
-	public String targetClassificationsFor(String uri, Object... objects) throws ClientProtocolException, IOException, HttpException {
+	public String targetClassificationsFor(String uri, Object... objects) throws IOException {
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("uri", uri);
 		return runRequest(server + "compound/classificationsForTargets", params, objects);
