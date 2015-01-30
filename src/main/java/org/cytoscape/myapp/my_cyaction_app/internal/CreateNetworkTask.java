@@ -47,8 +47,8 @@ public class CreateNetworkTask extends AbstractTask {
 		try {
 			String compound = "http://www.conceptwiki.org/concept/index/8565e215-8583-447a-b796-f16938b3e72e";
 			ops.pharma4Compound(compound, node1);
-			CyNode blaah = myNet.addNode();
-			myNet.getDefaultNodeTable().getRow(blaah.getSUID()).set("name", "David");
+			//CyNode blaah = myNet.addNode();
+			//myNet.getDefaultNodeTable().getRow(blaah.getSUID()).set("name", "David");
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
